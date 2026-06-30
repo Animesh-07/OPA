@@ -67,10 +67,10 @@ def run_optimization():
     E = pulp.LpVariable.dicts("Extended", months, cat=pulp.LpBinary)
     S = pulp.LpVariable.dicts("Switch", months, cat=pulp.LpBinary)
     
-    # Objective
+    # Objective: Updated to include all months in the switch cost sum
     model += (
         pulp.lpSum(normal_cost * N[t] + extended_cost * E[t] + holding_cost * I[t] for t in months)
-        + switch_cost * pulp.lpSum(S[t] for t in range(1, 6))
+        + switch_cost * pulp.lpSum(S[t] for t in months)
     )
     
     # Inventory Balance
